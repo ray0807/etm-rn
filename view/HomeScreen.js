@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Button,YellowBox, StyleSheet, View,Text} from 'react-native';
+import {YellowBox, StyleSheet, View, Text} from 'react-native';
 
-// onPress={() => navigate('Profile', {name: 'Jane'})}
+import Button from 'react-native-button';
+
+
 let socket = require('socket.io-client')('http://etm.red:8096');
 
 console.ignoredYellowBox = ['Remote debugger'];
@@ -10,53 +12,109 @@ YellowBox.ignoreWarnings([
 ]);
 
 
-socket.on('connect', function() {
-    // console.warn("connect!!");
-});
+export default class HomeScreen extends React.Component {
 
-socket.on('blocks/change', function(data) {
-    if (data && data.height > 0) {
-        // console.warn('应用节点正常出块！height:',data.height);
-    }else{
-        // console.warn('应用节点没有出块！！！data:',data);
+    constructor() {
+        super()
+        this.state = {
+            blockNums: 0,
+            balance: 0
+        }
+
+        // socket.on('connect', function () {
+        //     // console.warn("connect!!");
+        //
+        // });
+
+        socket.on('blocks/change', this.getBlockHeight);
+        // socket.on('disconnect', function () {
+        //     // console.warn("connect!!");
+        // });
     }
 
-});
-socket.on('disconnect', function() {
-    // console.warn("connect!!");
-});
-
-export default class HomeScreen extends React.Component {
+    getBlockHeight = (data) => {
+        if (data && data.height > 0) {
+            this.setState({blockNums: data.height});
+        }
+    }
 
 
     static navigationOptions = {
         title: 'entanmo wallet',
     };
 
+    _handlePress() {
+        console.log('Pressed!');
+    }
+
     render() {
         const {navigate} = this.props.navigation;
         return (
-
             <View style={styles.container}>
-                <Button title="登录" style={styles.instructions} onPress={() => console.log('socket:',socket,'|||str:',{str})}>
+
+                <View style={{margin: 2, padding: 20, flexDirection: 'row', backgroundColor: '#FFFFFF'}}>
+                    <View style={styles.blockStyle}>
+                        <Text style={styles.noteTextStyle}>我的余额(ETM)</Text>
+                        <Text style={styles.bigTextStyle}>1000</Text>
+                    </View>
+                    <View style={{width: 1, marginTop: 10, marginBottom: 10, backgroundColor: '#cccccc'}}></View>
+                    <View style={styles.blockStyle}>
+                        <Text style={styles.noteTextStyle}>区块高度</Text>
+                        <Text style={styles.bigTextStyle}>{this.state.blockNums}</Text>
+                    </View>
+
+                </View>
+
+                <Button
+                    style={{fontSize: 20, color: '#333333'}}
+                    styleDisabled={{color: '#999999'}}
+                    containerStyle={{
+                        padding: 10,
+                        height: 45,
+                        overflow: 'hidden',
+                        borderRadius: 4,
+                        backgroundColor: '#ffffff'
+                    }}
+                    onPress={() => this._handlePress()}>
+                    登录
                 </Button>
-                <Button title="注册" style={styles.instructions}>
+                <Button
+                    style={{fontSize: 20, color: '#333333'}}
+                    containerStyle={{
+                        padding: 10,
+                        height: 45,
+                        overflow: 'hidden',
+                        borderRadius: 4,
+                        backgroundColor: '#ffffff'
+                    }}
+                    styleDisabled={{color: '#999999'}}
+                    onPress={() => this._handlePress()}>
+                    注册
                 </Button>
             </View>
-
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        backgroundColor: '#FBFBFB',
+    },
+    blockStyle: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF'
     },
-    instructions: {
-        textAlign: 'center',
+    bigTextStyle: {
+        fontSize: 25,
         color: '#333333',
-        marginBottom: 15,
+        marginTop: 5
     },
+    noteTextStyle: {
+        fontSize: 20,
+        color: '#666666'
+    }
 });

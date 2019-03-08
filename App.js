@@ -12,6 +12,7 @@ import {Platform, Text, View} from 'react-native';
 import {transaction} from 'etm-js-rn'
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import HomeScreen from './view/HomeScreen'
+import TestScreen from './view/TestScreen'
 
 
 
@@ -23,7 +24,7 @@ const instructions = Platform.select({
 
 const MainNavigator = createStackNavigator({
     Home: {screen: HomeScreen},
-    // Profile: {screen: ProfileScreen},
+    Test: {screen: TestScreen},
 });
 
 const App = createAppContainer(MainNavigator);
