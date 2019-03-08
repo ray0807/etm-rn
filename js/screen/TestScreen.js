@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Button,YellowBox, StyleSheet, View,Text} from 'react-native';
 
+import BaseScreen from './BaseScreen'
 
-export default class TestScreen extends React.Component {
+export default class TestScreen extends BaseScreen {
 
 
     static navigationOptions = {

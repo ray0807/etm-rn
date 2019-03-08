@@ -25,7 +25,8 @@
     "react-navigation": "3.3.2",
     "react-native-button": "2.3.0",
     "react-native-gesture-handler": "1.1.0",
-    "socket.io-client": "2.2.0"
+    "socket.io-client": "2.2.0",
+    "react-native-storage": "1.0.0-beta.1"
   },
   "devDependencies": {
     "rn-nodeify": "^10.0.0",

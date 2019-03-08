@@ -3,6 +3,8 @@ import {YellowBox, StyleSheet, View, Text} from 'react-native';
 
 import Button from 'react-native-button';
 
+import BaseScreen from './BaseScreen'
+
 
 let socket = require('socket.io-client')('http://etm.red:8096');
 
@@ -12,7 +14,7 @@ YellowBox.ignoreWarnings([
 ]);
 
 
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends BaseScreen {
 
     constructor() {
         super()
@@ -44,7 +46,7 @@ export default class HomeScreen extends React.Component {
     };
 
     _handlePress() {
-        console.log('Pressed!');
+        this.props.navigation.navigate('Test')
     }
 
     render() {
