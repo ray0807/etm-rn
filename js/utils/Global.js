@@ -2,8 +2,10 @@ import global from './StorageUtil'
 
 //用户登录数据
 global.user = {
-    loginState:'',//登录状态
-    userData:'',//用户数据
+    loginState: '',//登录状态
+    userData: '',//用户数据
+    secret: '',
+    address: '',
 };
 //刷新的时候重新获得用户数据
 storage.load({

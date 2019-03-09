@@ -23,6 +23,10 @@ export default class SplashScreen extends BaseScreen {
         };
     }
 
+    // static navigationOptions = {
+    //     title: 'Wallet',
+    // };
+
     componentDidMount() {
         Animated.timing(
             this.state.fadeAnim,

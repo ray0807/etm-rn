@@ -26,8 +26,8 @@ export default class LoginScreen extends BaseScreen {
         });
         //用户登录数据
         global.user = {
-            loginState:true,//登录状态
-            userData:{userid: '1001', userName: 'userName', token: 'token'},//用户数据
+            loginState: true,//登录状态
+            userData: {userid: '1001', userName: 'userName', token: 'token'},//用户数据
         };
         // global.user.loginState = true;//设置登录状态
         // global.user.userData = {userid: '1001', userName: 'userName', token: 'token'};//保存用户数据

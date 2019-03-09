@@ -20,7 +20,8 @@ export default class HomeScreen extends BaseScreen {
         super()
         this.state = {
             blockNums: 0,
-            balance: 0
+            balance: 0,
+            isHiddenLogin: false,
         }
 
         // socket.on('connect', function () {
@@ -42,7 +43,7 @@ export default class HomeScreen extends BaseScreen {
 
 
     static navigationOptions = {
-        title: 'entanmo wallet',
+        title: 'Wallet',
     };
 
     _handlePress() {
@@ -57,7 +58,7 @@ export default class HomeScreen extends BaseScreen {
                 <View style={{margin: 2, padding: 20, flexDirection: 'row', backgroundColor: '#FFFFFF'}}>
                     <View style={styles.blockStyle}>
                         <Text style={styles.noteTextStyle}>我的余额(ETM)</Text>
-                        <Text style={styles.bigTextStyle}>1000</Text>
+                        <Text style={styles.bigTextStyle}>{this.state.balance}</Text>
                     </View>
                     <View style={{width: 1, marginTop: 10, marginBottom: 10, backgroundColor: '#cccccc'}}></View>
                     <View style={styles.blockStyle}>
@@ -66,19 +67,23 @@ export default class HomeScreen extends BaseScreen {
                     </View>
 
                 </View>
-                <Button
-                    style={{fontSize: 20, color: '#333333'}}
-                    styleDisabled={{color: '#999999'}}
-                    containerStyle={{
-                        padding: 10,
-                        height: 45,
-                        overflow: 'hidden',
-                        borderRadius: 4,
-                        backgroundColor: '#ffffff'
-                    }}
-                    onPress={() => this._handlePress()}>
-                    登录
-                </Button>
+                {
+                    //如果登录了就隐藏
+                    global.user &&
+                    <Button
+                        style={{fontSize: 20, color: '#333333'}}
+                        styleDisabled={{color: '#999999'}}
+                        containerStyle={{
+                            padding: 10,
+                            height: 45,
+                            overflow: 'hidden',
+                            borderRadius: 4,
+                            backgroundColor: '#ffffff'
+                        }}
+                        onPress={() => this._handlePress()}>
+                        登录
+                    </Button>
+                }
 
             </View>
         );
