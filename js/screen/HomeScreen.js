@@ -66,7 +66,6 @@ export default class HomeScreen extends BaseScreen {
                     </View>
 
                 </View>
-
                 <Button
                     style={{fontSize: 20, color: '#333333'}}
                     styleDisabled={{color: '#999999'}}
@@ -80,19 +79,7 @@ export default class HomeScreen extends BaseScreen {
                     onPress={() => this._handlePress()}>
                     登录
                 </Button>
-                <Button
-                    style={{fontSize: 20, color: '#333333'}}
-                    containerStyle={{
-                        padding: 10,
-                        height: 45,
-                        overflow: 'hidden',
-                        borderRadius: 4,
-                        backgroundColor: '#ffffff'
-                    }}
-                    styleDisabled={{color: '#999999'}}
-                    onPress={() => this._handlePress()}>
-                    注册
-                </Button>
+
             </View>
         );
     }
