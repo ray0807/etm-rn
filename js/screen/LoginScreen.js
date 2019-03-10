@@ -1,12 +1,22 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {TextInput, View, StyleSheet, Dimensions} from 'react-native';
 import Button from 'react-native-button';
 import BaseScreen from './BaseScreen'
+
+let WINDOW_WIDTH = Dimensions.get('window').width;
 
 export default class LoginScreen extends BaseScreen {
     constructor() {
         super()
+        this.state = {
+            secret: '',
+        }
     }
+
+    static navigationOptions = {
+        title: '登录',
+    };
+
 
     login() {
         // 使用key来保存数据。这些数据一般是全局独有的，常常需要调用的。
@@ -28,23 +38,33 @@ export default class LoginScreen extends BaseScreen {
         global.user = {
             loginState: true,//登录状态
             userData: {userid: '1001', userName: 'userName', token: 'token'},//用户数据
+
         };
         // global.user.loginState = true;//设置登录状态
         // global.user.userData = {userid: '1001', userName: 'userName', token: 'token'};//保存用户数据
 
-        setTimeout(() => {
-            this.props.navigation.navigate('Home')//跳转到用户页面
-        }, 2000)
+        console.warn("secret:", this.state.secret)
+        // setTimeout(() => {
+        //     this.props.navigation.navigate('Home')//跳转到用户页面
+        // }, 2000)
     }
 
     render() {
         return (<View style={styles.container}>
+
+            <TextInput
+                style={styles.input}
+                placeholder="请输入密码"
+                secureTextEntry={true}
+                onChangeText={(text) => this.setState({secret: text})}/>
             <Button
                 style={{fontSize: 20, color: '#333333'}}
                 styleDisabled={{color: '#999999'}}
                 containerStyle={{
                     padding: 10,
                     height: 45,
+                    width: WINDOW_WIDTH - 40,
+                    margin: 20,
                     overflow: 'hidden',
                     borderRadius: 4,
                     backgroundColor: '#ffffff'
@@ -56,8 +76,12 @@ export default class LoginScreen extends BaseScreen {
             <Button
                 style={{fontSize: 20, color: '#333333'}}
                 containerStyle={{
+
                     padding: 10,
                     height: 45,
+                    width: WINDOW_WIDTH - 40,
+                    marginLeft: 20,
+                    marginRight: 20,
                     overflow: 'hidden',
                     borderRadius: 4,
                     backgroundColor: '#ffffff'
@@ -71,6 +95,16 @@ export default class LoginScreen extends BaseScreen {
     }
 }
 const styles = StyleSheet.create({
+    input: {
+        width: WINDOW_WIDTH - 40,
+        height: 45,
+        borderWidth: 1,
+        marginLeft: 20,
+        marginRight: 20,
+        paddingLeft: 5,
+        borderColor: '#ccc',
+        borderRadius: 4
+    },
     container: {
         flex: 1,
         justifyContent: 'center',

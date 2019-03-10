@@ -34,7 +34,7 @@ const MainNavigator = createStackNavigator({
     Login: {screen: LoginScreen},
 
 }, {
-    initialRouteName: 'Home', // 默认显示界面
+    initialRouteName: 'Login', // 默认显示界面
     navigationOptions: {  // 屏幕导航的默认选项, 也可以在组件内用 static navigationOptions 设置(会覆盖此处的设置)
         headerStyle: {elevation: 0, shadowOpacity: 0, height: 48, backgroundColor: "#2196f3"},
         headerTitleStyle: {color: '#fff', fontSize: 16}, //alignSelf:'center'  文字居中
