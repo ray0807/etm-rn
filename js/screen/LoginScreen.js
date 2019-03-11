@@ -8,7 +8,7 @@ import {resetToHomeAction} from '../../App'
 
 let WINDOW_WIDTH = Dimensions.get('window').width;
 
-import {SAVE_LOGIN_URL, USER_KEY} from '../config/Config'
+import {SAVE_LOGIN_URL, USER_KEY,BACKGROUND_COLOR} from '../config/Config'
 
 import {storage} from '../utils/Storage'
 
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FBFBFB',
+        backgroundColor: BACKGROUND_COLOR,
     },
     blockStyle: {
         flex: 1,

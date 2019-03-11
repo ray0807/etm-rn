@@ -3,7 +3,7 @@ import {YellowBox, StyleSheet, View, Text, ScrollView} from 'react-native';
 
 
 import BaseScreen from './BaseScreen'
-import {BASE_URL, GET_ADDRESS_URL, USER_KEY} from '../config/Config'
+import {BASE_URL, GET_ADDRESS_URL, USER_KEY, BACKGROUND_COLOR} from '../config/Config'
 
 
 let socket = require('socket.io-client')(BASE_URL);
@@ -43,7 +43,10 @@ export default class HomeScreen extends BaseScreen {
 
     }
 
+
     getBlockHeight = (data) => {
+
+
         if (data && data.height > 0) {
             this.setState({blockNums: data.height});
         }
@@ -65,9 +68,8 @@ export default class HomeScreen extends BaseScreen {
     }
 
 
-
     render() {
-        let navi=this.props.navigation
+        let navi = this.props.navigation
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         // alignItems: 'center',
-        backgroundColor: '#FBFBFB',
+        backgroundColor: BACKGROUND_COLOR,
     },
     blockStyle: {
         flex: 1,
