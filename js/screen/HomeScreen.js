@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {YellowBox, StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {YellowBox, StyleSheet, View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 
 import Button from 'react-native-button';
 
@@ -10,6 +10,7 @@ import {BASE_URL, GET_ADDRESS_URL, USER_KEY} from '../config/Config'
 let socket = require('socket.io-client')(BASE_URL);
 
 import {afterRegisterAction} from '../../App'
+
 
 
 console.ignoredYellowBox = ['Remote debugger'];
@@ -70,22 +71,44 @@ export default class HomeScreen extends BaseScreen {
         this.props.navigation.dispatch(afterRegisterAction)
     }
 
+
     render() {
         return (
             <View style={styles.container}>
 
-                <View style={{margin: 2, padding: 20, flexDirection: 'row', backgroundColor: '#FFFFFF'}}>
-                    <View style={styles.blockStyle}>
-                        <Text style={styles.noteTextStyle}>我的余额(ETM)</Text>
-                        <Text style={styles.bigTextStyle}>{this.state.balance}</Text>
-                    </View>
-                    <View style={{width: 1, marginTop: 10, marginBottom: 10, backgroundColor: '#cccccc'}}></View>
-                    <View style={styles.blockStyle}>
-                        <Text style={styles.noteTextStyle}>区块高度</Text>
-                        <Text style={styles.bigTextStyle}>{this.state.blockNums}</Text>
-                    </View>
+                <ScrollView>
+                    <View style={{margin: 2, padding: 20, flexDirection: 'row', backgroundColor: '#FFFFFF'}}>
+                        <View style={styles.blockStyle}>
+                            <Text style={styles.noteTextStyle}>我的余额(ETM)</Text>
+                            <Text style={styles.bigTextStyle}>{this.state.balance}</Text>
+                        </View>
+                        <View style={{width: 1, marginTop: 10, marginBottom: 10, backgroundColor: '#cccccc'}}></View>
+                        <View style={styles.blockStyle}>
+                            <Text style={styles.noteTextStyle}>区块高度</Text>
+                            <Text style={styles.bigTextStyle}>{this.state.blockNums}</Text>
+                        </View>
 
-                </View>
+                    </View>
+                    <Text style={styles.introStyle}>
+                        主链操作
+                    </Text>
+                    <View style={{height: 100, backgroundColor: '#ffffff'}}/>
+
+                    <Text style={styles.introStyle}>
+                        Dapps
+                    </Text>
+                    <View style={{height: 100, backgroundColor: '#ffffff'}}/>
+
+                    <Text style={styles.introStyle}>
+                        交易记录
+                    </Text>
+                    <View style={{height: 100, backgroundColor: '#ffffff'}}/>
+                </ScrollView>
+
+
+                <View style={{flex: 1}}/>
+
+
                 {
                     //如果登录了就隐藏
                     global.user &&
@@ -134,5 +157,18 @@ const styles = StyleSheet.create({
     rightIcon: {
         height: 20,
         width: 20
-    }
+    },
+    scrollViewStyle: {
+        height: 200,
+    },
+    itemStyle: {
+        // 尺寸
+        width: 1000,
+        height: 200
+    },
+    introStyle: {
+        fontSize: 18,
+        color: '#666666',
+        margin: 10
+    },
 });

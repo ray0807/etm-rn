@@ -61,7 +61,7 @@ export default class LoginScreen extends BaseScreen {
 
 
     }
-    
+
 
     render() {
         return (<View style={styles.container}>
@@ -87,24 +87,7 @@ export default class LoginScreen extends BaseScreen {
             >
                 登录
             </Button>
-            <Button
-                style={{fontSize: 20, color: '#333333'}}
-                containerStyle={{
 
-                    padding: 10,
-                    height: 45,
-                    width: WINDOW_WIDTH - 40,
-                    marginLeft: 20,
-                    marginRight: 20,
-                    overflow: 'hidden',
-                    borderRadius: 4,
-                    backgroundColor: '#ffffff'
-                }}
-                styleDisabled={{color: '#999999'}}
-                // onPress={() => this._handlePress()}
-            >
-                注册
-            </Button>
         </View>)
     }
 }
@@ -115,13 +98,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginLeft: 20,
         marginRight: 20,
+        marginTop: 100,
         paddingLeft: 5,
         borderColor: '#ccc',
         borderRadius: 4
     },
     container: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FBFBFB',
     },
