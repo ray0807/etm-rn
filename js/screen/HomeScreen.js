@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {YellowBox, StyleSheet, View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {YellowBox, StyleSheet, View, Text, ScrollView} from 'react-native';
 
-import Button from 'react-native-button';
 
 import BaseScreen from './BaseScreen'
 import {BASE_URL, GET_ADDRESS_URL, USER_KEY} from '../config/Config'
@@ -11,7 +10,7 @@ let socket = require('socket.io-client')(BASE_URL);
 
 import {afterRegisterAction} from '../../App'
 
-
+import MainGrid from '../view/Gridview'
 
 console.ignoredYellowBox = ['Remote debugger'];
 YellowBox.ignoreWarnings([
@@ -66,16 +65,11 @@ export default class HomeScreen extends BaseScreen {
     }
 
 
-    doLogin() {
-        // this.props.navigation.navigate('Test')
-        this.props.navigation.dispatch(afterRegisterAction)
-    }
-
 
     render() {
+        let navi=this.props.navigation
         return (
             <View style={styles.container}>
-
                 <ScrollView>
                     <View style={{margin: 2, padding: 20, flexDirection: 'row', backgroundColor: '#FFFFFF'}}>
                         <View style={styles.blockStyle}>
@@ -92,8 +86,9 @@ export default class HomeScreen extends BaseScreen {
                     <Text style={styles.introStyle}>
                         主链操作
                     </Text>
-                    <View style={{height: 100, backgroundColor: '#ffffff'}}/>
-
+                    <View style={{marginLeft: 10, marginRight: 10, backgroundColor: '#fff'}}>
+                        <MainGrid navi={navi}/>
+                    </View>
                     <Text style={styles.introStyle}>
                         Dapps
                     </Text>
@@ -132,6 +127,7 @@ export default class HomeScreen extends BaseScreen {
         );
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
