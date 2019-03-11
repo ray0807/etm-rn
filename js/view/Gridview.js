@@ -37,13 +37,14 @@ export default function MainGrid(props) {
                     <TouchableOpacity onPress={() => {
                         switch (itemIndex) {
                             case 0:
-                                console.warn("转账")
+                                props.navi.navigate('Transfer')
                                 break;
                             case 1:
-                                console.warn("投票")
+                                props.navi.navigate('Vote')
                                 break;
                             case 2:
-                                console.warn("二级密码")
+                                props.navi.navigate('Second')
+
                                 break;
 
                         }

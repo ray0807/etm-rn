@@ -14,6 +14,9 @@ import HomeScreen from './js/screen/HomeScreen'
 import TestScreen from './js/screen/TestScreen'
 import LoginScreen from './js/screen/LoginScreen'
 import SplashScreen from "./js/screen/SplashScreen";
+import TransferScreen from "./js/screen/chain/TransferScreen";
+import VoteScreen from "./js/screen/chain/VoteScreen";
+import SecondScreen from "./js/screen/chain/SecondScreen";
 
 
 //全局存储
@@ -38,17 +41,22 @@ const MainNavigator = createStackNavigator({
                 title: 'wallet',
 
             })
-            }
-        ,
+            },
         Test: {
             screen: TestScreen
-        }
-        ,
+        },
         Login: {
             screen: LoginScreen
-        }
-        ,
-
+        },
+        Transfer: {
+            screen: TransferScreen
+        },
+        Vote: {
+            screen: VoteScreen
+        },
+        Second: {
+            screen: SecondScreen
+        },
     },
     {
         initialRouteName: 'Home', // 默认显示界面
@@ -143,5 +151,3 @@ export const resetToHomeAction = StackActions.reset({
 const App = createAppContainer(MainNavigator);
 
 export default App;
-
-
