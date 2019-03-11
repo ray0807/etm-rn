@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {YellowBox, StyleSheet, View, Text} from 'react-native';
+import {YellowBox, StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
 import Button from 'react-native-button';
 
@@ -27,6 +27,7 @@ export default class HomeScreen extends BaseScreen {
             balance: 0,
             isHiddenLogin: false,
         }
+
 
         // socket.on('connect', function () {
         //     // console.warn("connect!!");
@@ -64,10 +65,6 @@ export default class HomeScreen extends BaseScreen {
     }
 
 
-    static navigationOptions = {
-        title: 'wallet',
-    };
-
     doLogin() {
         // this.props.navigation.navigate('Test')
         this.props.navigation.dispatch(afterRegisterAction)
@@ -91,8 +88,9 @@ export default class HomeScreen extends BaseScreen {
                 </View>
                 {
                     //如果登录了就隐藏
-                    // global.user &&
-                    <Button
+                    global.user &&
+                    <View/>
+                    /*<Button
                         style={{fontSize: 20, color: '#333333'}}
                         styleDisabled={{color: '#999999'}}
                         containerStyle={{
@@ -104,7 +102,7 @@ export default class HomeScreen extends BaseScreen {
                         }}
                         onPress={() => this.doLogin()}>
                         登录
-                    </Button>
+                    </Button>*/
                 }
 
             </View>
@@ -132,5 +130,9 @@ const styles = StyleSheet.create({
     noteTextStyle: {
         fontSize: 20,
         color: '#666666'
+    },
+    rightIcon: {
+        height: 20,
+        width: 20
     }
 });
