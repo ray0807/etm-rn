@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {TextInput, View, StyleSheet, Dimensions} from 'react-native';
 import Button from 'react-native-button';
 import BaseScreen from './BaseScreen'
+import {crypto} from 'etm-js-rn'
+
+import {resetToHomeAction} from '../../App'
 
 let WINDOW_WIDTH = Dimensions.get('window').width;
 
@@ -21,32 +24,48 @@ export default class LoginScreen extends BaseScreen {
     login() {
         // 使用key来保存数据。这些数据一般是全局独有的，常常需要调用的。
         // 除非你手动移除，这些数据会被永久保存，而且默认不会过期。
-        storage.save({
-            key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
-            data: {
-                userid: '1001',
-                userName: 'userName',
-                token: 'token'
+        // storage.save({
+        //     key: 'loginState',  // 注意:请不要在key中使用_下划线符号!
+        //     data: {
+        //         userid: '1001',
+        //         userName: 'userName',
+        //         token: 'token'
+        //     },
+        //
+        //     // 如果不指定过期时间，则会使用defaultExpires参数
+        //     // 如果设为null，则永不过期
+        //     // 8个小时后过期
+        //     expires: 1000 * 3600 * 8
+        // });
+
+
+        fetch('http://etm.red:8096/api/accounts/open2/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'magic': 'personal',
+                'version': ''
             },
-
-            // 如果不指定过期时间，则会使用defaultExpires参数
-            // 如果设为null，则永不过期
-            // 8个小时后过期
-            expires: 1000 * 3600 * 8
+            body: JSON.stringify({"publicKey": crypto.getKeys(this.state.secret).publicKey}),
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            }
+        }).then((json) => {
+            if (json && json.success) {
+                global.user = {
+                    loginState: true,//登录状态
+                    userData: {},//用户数据
+                    secret: this.state.secret,
+                    address: json.account.address
+                };
+                this.props.navigation.dispatch(resetToHomeAction)  //跳转到首页
+            }
+        }).catch((error) => {
+            console.error(error);
         });
-        //用户登录数据
-        global.user = {
-            loginState: true,//登录状态
-            userData: {userid: '1001', userName: 'userName', token: 'token'},//用户数据
 
-        };
-        // global.user.loginState = true;//设置登录状态
-        // global.user.userData = {userid: '1001', userName: 'userName', token: 'token'};//保存用户数据
 
-        console.warn("secret:", this.state.secret)
-        // setTimeout(() => {
-        //     this.props.navigation.navigate('Home')//跳转到用户页面
-        // }, 2000)
     }
 
     render() {

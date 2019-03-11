@@ -9,8 +9,7 @@
 
 import React, {Component} from 'react';
 import {Platform, Text, View} from 'react-native';
-import {transaction} from 'etm-js-rn'
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {createStackNavigator, createAppContainer, NavigationActions, StackActions} from 'react-navigation';
 import HomeScreen from './js/screen/HomeScreen'
 import TestScreen from './js/screen/TestScreen'
 import LoginScreen from './js/screen/LoginScreen'
@@ -22,11 +21,6 @@ import SplashScreen from "./js/screen/SplashScreen";
 import './js/utils/Global'
 
 
-// const instructions = Platform.select({
-//     ios: 'transaction:' + JSON.stringify(transaction.createTransaction('AAA', 10000, 'test', 'aaaa aaa', '')),
-//     android: 'transaction:' + JSON.stringify(transaction.createTransaction('AAA', 10000, 'test', 'aaaa aaa', ''))
-// });
-
 const MainNavigator = createStackNavigator({
     Splash: {screen: SplashScreen},
     Home: {screen: HomeScreen},
@@ -34,7 +28,7 @@ const MainNavigator = createStackNavigator({
     Login: {screen: LoginScreen},
 
 }, {
-    initialRouteName: 'Login', // 默认显示界面
+    initialRouteName: 'Home', // 默认显示界面
     navigationOptions: {  // 屏幕导航的默认选项, 也可以在组件内用 static navigationOptions 设置(会覆盖此处的设置)
         headerStyle: {elevation: 0, shadowOpacity: 0, height: 48, backgroundColor: "#2196f3"},
         headerTitleStyle: {color: '#fff', fontSize: 16}, //alignSelf:'center'  文字居中
@@ -83,6 +77,26 @@ MainNavigator.router.getStateForAction = (action, state) => {
 };
 
 
+//app.js
+//注册之后自动跳转到登录页面中，并且重置导航stack，使得不能返回注册页面
+export const afterRegisterAction = StackActions.reset({
+    index: 1,   //1表示当前调度到Login页面
+    actions: [  //新的导航操作历史
+        NavigationActions.navigate({routeName: 'Home'}),
+        NavigationActions.navigate({routeName: 'Login'}),
+    ]
+})
+
+//回到首页，且清空stack中的其他的导航记录。
+export const resetToHomeAction = StackActions.reset({
+    index: 0,   //对应actions中的index。指定当前页面。
+    actions: [  //替换之后的导航记录
+        NavigationActions.navigate({routeName: 'Home'})
+    ]
+})
+
 const App = createAppContainer(MainNavigator);
 
 export default App;
+
+

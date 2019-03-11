@@ -8,6 +8,8 @@ import BaseScreen from './BaseScreen'
 
 let socket = require('socket.io-client')('http://etm.red:8096');
 
+import {afterRegisterAction} from '../../App'
+
 console.ignoredYellowBox = ['Remote debugger'];
 YellowBox.ignoreWarnings([
     'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
@@ -39,19 +41,34 @@ export default class HomeScreen extends BaseScreen {
         if (data && data.height > 0) {
             this.setState({blockNums: data.height});
         }
+        if (global.user && global.user.address) {
+            fetch('http://etm.red:8096/api/accounts/getBalance?address=' + global.user.address)
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                }).then((json) => {
+                if (json && json.success) {
+                    this.setState({balance: (json.balance / 1e8).toFixed(2)});
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+
     }
 
 
     static navigationOptions = {
-        title: 'Wallet',
+        title: 'wallet',
     };
 
-    _handlePress() {
-        this.props.navigation.navigate('Test')
+    doLogin() {
+        // this.props.navigation.navigate('Test')
+        this.props.navigation.dispatch(afterRegisterAction)
     }
 
     render() {
-        const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
 
@@ -69,7 +86,7 @@ export default class HomeScreen extends BaseScreen {
                 </View>
                 {
                     //如果登录了就隐藏
-                    global.user &&
+                    // global.user &&
                     <Button
                         style={{fontSize: 20, color: '#333333'}}
                         styleDisabled={{color: '#999999'}}
@@ -80,7 +97,7 @@ export default class HomeScreen extends BaseScreen {
                             borderRadius: 4,
                             backgroundColor: '#ffffff'
                         }}
-                        onPress={() => this._handlePress()}>
+                        onPress={() => this.doLogin()}>
                         登录
                     </Button>
                 }
