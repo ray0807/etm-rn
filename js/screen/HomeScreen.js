@@ -4,11 +4,13 @@ import {YellowBox, StyleSheet, View, Text} from 'react-native';
 import Button from 'react-native-button';
 
 import BaseScreen from './BaseScreen'
+import {BASE_URL, GET_ADDRESS_URL, USER_KEY} from '../config/Config'
 
 
-let socket = require('socket.io-client')('http://etm.red:8096');
+let socket = require('socket.io-client')(BASE_URL);
 
 import {afterRegisterAction} from '../../App'
+
 
 console.ignoredYellowBox = ['Remote debugger'];
 YellowBox.ignoreWarnings([
@@ -31,18 +33,21 @@ export default class HomeScreen extends BaseScreen {
         //
         // });
 
+
         socket.on('blocks/change', this.getBlockHeight);
         // socket.on('disconnect', function () {
         //     // console.warn("connect!!");
         // });
+
+
     }
 
     getBlockHeight = (data) => {
         if (data && data.height > 0) {
             this.setState({blockNums: data.height});
         }
-        if (global.user && global.user.address) {
-            fetch('http://etm.red:8096/api/accounts/getBalance?address=' + global.user.address)
+        if (global.user && global.user.loginState && global.user.address) {
+            fetch(GET_ADDRESS_URL + global.user.address)
                 .then((response) => {
                     if (response.ok) {
                         return response.json();

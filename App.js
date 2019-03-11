@@ -19,6 +19,7 @@ import SplashScreen from "./js/screen/SplashScreen";
 //全局存储
 
 import './js/utils/Global'
+import './js/utils/StorageUtil'
 
 
 const MainNavigator = createStackNavigator({
