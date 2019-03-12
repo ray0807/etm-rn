@@ -12,8 +12,7 @@ import {BACKGROUND_COLOR, SEND_COLOR} from '../config/Config'
 import {login} from '../utils/http'
 
 
-//force video glimpse venue material misery math cube work point jelly pledge
-//AQ3ySa6PiU1f3VR9S4LsmJKRU1bW6U5Pfa
+//enable limit unknown meadow able whip code ranch sustain balcony climb only
 
 export default class LoginScreen extends BaseScreen {
     constructor() {
@@ -32,6 +31,7 @@ export default class LoginScreen extends BaseScreen {
 
     loginCallback(data) {
         if (data) {
+            console.warn(global.user)
             this.props.navigation.dispatch(resetToHomeAction)  //跳转到首页
         } else {
             console.warn("登录出错")
@@ -71,7 +71,7 @@ export default class LoginScreen extends BaseScreen {
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}
-                    onPress={() => this.transfer()}
+                    onPress={() => login(this.state.secret, this.state.secondSecret, this.loginCallback)}
                 >
                     登录
                 </Button>

@@ -10,7 +10,6 @@ global.user = {
     secret: '',
     address: '',
     secondSecret: '',
-    publicKey: '',
 };
 
 storage.load(USER_KEY, function (data) {
@@ -21,7 +20,6 @@ storage.load(USER_KEY, function (data) {
             secret: data.secret,
             address: data.address,
             secondSecret: data.secondSecret,
-            publicKey: data.publicKey
         };
     }
 

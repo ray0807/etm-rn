@@ -12,7 +12,6 @@ responseData = {
 export function sendETM(receiveAddress, amount, msg, secret, secondSecret, callback) {
     let trs = transaction.createTransaction(receiveAddress, amount, msg, secret, secondSecret)
 
-    console.warn(JSON.stringify({"transaction": trs}))
 
     fetch(TRANSFER_URL, {
         method: 'POST',
@@ -50,21 +49,18 @@ export function login(secret, secondSecret, callback) {
             return response.json();
         }
     }).then((json) => {
-        console.warn(json)
         if (json && json.success) {
             global.user = {
                 loginState: true,//登录状态
                 userData: {},//用户数据
                 secret: secret,
                 address: json.account.address,
-                publicKey: json.account.publicKey,
                 secondSecret
             };
             callback(true)
             storage.save(USER_KEY, {
                 "secret": secret,
                 "address": json.account.address,
-                "publicKey": json.account.publicKey,
                 'secondSecret': secondSecret
             })
         }
@@ -97,7 +93,6 @@ export function setSecondPassword(secret, secondSecret, callback) {
             storage.save(USER_KEY, {
                 "secret": secret,
                 "address": global.user.address,
-                "publicKey": global.user.publicKey,
                 "secondSecret": secondSecret
             })
         }

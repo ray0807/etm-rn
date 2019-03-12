@@ -6,6 +6,7 @@ import BaseScreen from '../BaseScreen'
 import {BACKGROUND_COLOR, SEND_COLOR} from '../../config/Config'
 
 import {setSecondPassword} from '../../utils/http'
+import {crypto} from 'etm-js-rn'
 
 export default class PersonalScreen extends BaseScreen {
 
@@ -26,7 +27,11 @@ export default class PersonalScreen extends BaseScreen {
 
 //satoshi color congress fortune dynamic income venture defy motion extra crouch crane
     setSecondPasswordCallback(data) {
-        console.warn(data)
+        if (data.success) {
+            console.warn('设置成功')
+        } else {
+            console.warn('设置失败')
+        }
     }
 
     render() {
@@ -56,10 +61,10 @@ export default class PersonalScreen extends BaseScreen {
                     </Text>
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         <Text style={styles.textShow}>
-                            {global.user.publicKey}
+                            {crypto.getKeys(global.user.secret).publicKey}
                         </Text>
                         <TouchableOpacity onPress={() => {
-                            Clipboard.setString(global.user.publicKey);
+                            Clipboard.setString(crypto.getKeys(global.user.secret).publicKey);
                             console.warn('复制成功')
 
                         }}>
@@ -106,7 +111,7 @@ export default class PersonalScreen extends BaseScreen {
                             fontSize: 20, color: '#fff'
                         }}
                         styleDisabled={{color: '#999999'}}
-                        disabled={this.state.isDisabled && !global.user.secondSecret.length == 0}
+                        disabled={this.state.isDisabled}
                         containerStyle={{
                             height: 45,
                             width: null,

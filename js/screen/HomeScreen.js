@@ -28,7 +28,6 @@ export default class HomeScreen extends BaseScreen {
             isHiddenLogin: false,
         }
 
-
         // socket.on('connect', function () {
         //     // console.warn("connect!!");
         //
