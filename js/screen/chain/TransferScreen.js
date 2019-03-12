@@ -47,7 +47,7 @@ export default class TransferScreen extends BaseScreen {
 
     transfer() {
         if (this.validate()) {
-            sendETM(this.state.receiveAddress, Number(this.state.amount) * 1e8, this.state.msg, global.user.secret, '', this.sendCallback)
+            sendETM(this.state.receiveAddress, Number(this.state.amount) * 1e8, this.state.msg, global.user.secret, global.user.secondSecret, this.sendCallback)
         }
     }
 
@@ -93,7 +93,7 @@ export default class TransferScreen extends BaseScreen {
                         </Text>
                         <TouchableOpacity onPress={() => {
                             Clipboard.setString(global.user.address);
-
+                            console.warn('复制成功')
                         }}>
                             <Image style={{height: 20, width: 20, marginTop: 10}}
                                    source={require('../../../img/copy.png')}
@@ -163,7 +163,7 @@ export default class TransferScreen extends BaseScreen {
                         }}
                         onPress={() => this.transfer()}
                     >
-                        登录
+                        转账
                     </Button>
                 </View>
             </View>
