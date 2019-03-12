@@ -12,6 +12,8 @@ responseData = {
 export function sendETM(receiveAddress, amount, msg, secret, secondSecret, callback) {
     let trs = transaction.createTransaction(receiveAddress, amount, msg, secret, secondSecret)
 
+    console.warn(JSON.stringify({"transaction": trs}))
+
     fetch(TRANSFER_URL, {
         method: 'POST',
         headers: {
