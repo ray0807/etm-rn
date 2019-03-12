@@ -9,6 +9,7 @@ global.user = {
     userData: '',//用户数据
     secret: '',
     address: '',
+    secondSecret: '',
 };
 
 storage.load(USER_KEY, function (data) {
@@ -17,7 +18,8 @@ storage.load(USER_KEY, function (data) {
             loginState: true,//登录状态
             userData: {},//用户数据
             secret: data.secret,
-            address: data.address
+            address: data.address,
+            secondSecret: data.secondSecret
         };
     }
 

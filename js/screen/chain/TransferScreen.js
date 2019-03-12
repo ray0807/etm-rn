@@ -6,12 +6,18 @@ import BaseScreen from '../BaseScreen'
 
 import {BACKGROUND_COLOR, LINE_COLOR, SEND_COLOR} from '../../config/Config'
 
+
+import {transaction} from 'etm-js-rn'
+import {sendETM} from '../../utils/http'
+
 export default class TransferScreen extends BaseScreen {
 
     constructor() {
         super();
         this.state = {
             receiveAddress: '',
+            msg: '',
+            amount: '',
         }
 
     }
@@ -25,6 +31,49 @@ export default class TransferScreen extends BaseScreen {
     //         console.warn("getClipboardContent error:", e.toString())
     //     }
     // }
+
+    sendCallback(data) {
+
+        if (data) {
+            if (data && data.success) {
+                console.warn(data)
+            } else {
+                console.warn(data.error)
+            }
+        } else {
+            console.warn("服务器出错")
+        }
+    }
+
+    transfer() {
+        if (this.validate()) {
+            sendETM(this.state.receiveAddress, Number(this.state.amount) * 1e8, this.state.msg, global.user.secret, '', this.sendCallback)
+        }
+    }
+
+    validate() {
+        try {
+            if (Number(this.state.amount) <= 0) {
+                //转账金额不能小于0
+                console.warn("转账金额不能小于0")
+                return false
+            }
+            if (this.state.receiveAddress.length < 0 || !this.state.receiveAddress.startsWith("A")) {
+                //转账金额不能小于0
+                console.warn("非法接收地址:", this.state.receiveAddress)
+                return false
+            }
+            if (this.state.receiveAddress == global.user.address) {
+                //转账金额不能小于0
+                console.warn("不允许给自己的地址转账")
+                return false
+            }
+            return true
+
+        } catch {
+            return false;
+        }
+    }
 
     static navigationOptions = {
         title: '转账',
@@ -65,8 +114,17 @@ export default class TransferScreen extends BaseScreen {
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                         <TextInput
                             style={styles.addressInput}
+                            keyboardType='numeric'
                             placeholder="请输入转账金额"
-                            onChangeText={(text) => this.setState({receiveAddress: text})}/>
+                            onChangeText={(text) => {
+                                this.setState(
+                                    {amount: text.replace(/[^0-9.]*/g, '')}
+                                )
+                                // this.props.onChangeText(Number(text).toFixed(2));
+                            }
+                            }
+                            value={this.state.amount}
+                        />
                         <Text style={styles.etmLabel}>ETM</Text>
                     </View>
                     <Text style={styles.textLabel1}>
@@ -87,7 +145,7 @@ export default class TransferScreen extends BaseScreen {
                     <TextInput
                         style={styles.normalInput}
                         placeholder="请输入备注信息"
-                        onChangeText={(text) => this.setState({receiveAddress: text})}/>
+                        onChangeText={(text) => this.setState({msg: text})}/>
 
 
                     <Button
@@ -103,7 +161,7 @@ export default class TransferScreen extends BaseScreen {
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}
-                        onPress={() => this.login()}
+                        onPress={() => this.transfer()}
                     >
                         登录
                     </Button>

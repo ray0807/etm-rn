@@ -2,15 +2,15 @@ import React, {Component} from 'react';
 import {TextInput, View, StyleSheet, Dimensions} from 'react-native';
 import Button from 'react-native-button';
 import BaseScreen from './BaseScreen'
-import {crypto} from 'etm-js-rn'
 
 import {resetToHomeAction} from '../../App'
 
 let WINDOW_WIDTH = Dimensions.get('window').width;
 
-import {SAVE_LOGIN_URL, USER_KEY,BACKGROUND_COLOR} from '../config/Config'
+import {BACKGROUND_COLOR} from '../config/Config'
 
-import {storage} from '../utils/Storage'
+import {login} from '../utils/http'
+
 
 //force video glimpse venue material misery math cube work point jelly pledge
 //AQ3ySa6PiU1f3VR9S4LsmJKRU1bW6U5Pfa
@@ -21,6 +21,7 @@ export default class LoginScreen extends BaseScreen {
         this.state = {
             secret: '',
         }
+        this.loginCallback = this.loginCallback.bind(this)
     }
 
     static navigationOptions = {
@@ -28,38 +29,13 @@ export default class LoginScreen extends BaseScreen {
     };
 
 
-    login() {
-
-
-        fetch(SAVE_LOGIN_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'magic': 'personal',
-                'version': ''
-            },
-            body: JSON.stringify({"publicKey": crypto.getKeys(this.state.secret).publicKey}),
-        }).then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-        }).then((json) => {
-            if (json && json.success) {
-
-                global.user = {
-                    loginState: true,//登录状态
-                    userData: {},//用户数据
-                    secret: this.state.secret,
-                    address: json.account.address
-                };
-                this.props.navigation.dispatch(resetToHomeAction)  //跳转到首页
-                storage.save(USER_KEY, {"secret": this.state.secret, "address": json.account.address})
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-
-
+    loginCallback(data) {
+        if (data) {
+            this.props.navigation.dispatch(resetToHomeAction)  //跳转到首页
+        } else {
+            console.warn("登录出错")
+        }
+        
     }
 
 
@@ -83,7 +59,7 @@ export default class LoginScreen extends BaseScreen {
                     borderRadius: 4,
                     backgroundColor: '#ffffff'
                 }}
-                onPress={() => this.login()}
+                onPress={() => login(this.state.secret, this.loginCallback)}
             >
                 登录
             </Button>
