@@ -9,9 +9,9 @@ const itemsPerRow = 3;
 //     .fill(null)
 //     .map((item, index) => index + 1);
 
-const data = ['epony', '秘密', '其他']
+const data = ['epony', '秘密', '足球']
 
-const iconUrl = [require('../../img/epony.png'), require('../../img/epony.png'), require('../../img/epony.png')]
+const iconUrl = [require('../../img/epony.png'), require('../../img/secret.png'), require('../../img/football.png')]
 
 // ...or create your own data source.
 // This will randomly allocate 1-3 items per row, and will be used
@@ -43,8 +43,8 @@ export default function MainGrid(props) {
                                 props.navi.navigate('Vote')
                                 break;
                             case 2:
-                                props.navi.navigate('Personal')
-
+                                // props.navi.navigate('Personal')
+                                console.warn("暂未开放")
                                 break;
 
                         }
