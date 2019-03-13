@@ -40,7 +40,8 @@ export default function MainGrid(props) {
                                 props.navi.navigate('Transfer')
                                 break;
                             case 1:
-                                props.navi.navigate('Vote')
+                                console.warn("暂未开放")
+                                // props.navi.navigate('Vote')
                                 break;
                             case 2:
                                 props.navi.navigate('Personal')

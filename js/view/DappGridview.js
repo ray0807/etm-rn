@@ -40,7 +40,7 @@ export default function MainGrid(props) {
                                 props.navi.navigate('Epony')
                                 break;
                             case 1:
-                                props.navi.navigate('Vote')
+                                props.navi.navigate('Secret')
                                 break;
                             case 2:
                                 // props.navi.navigate('Personal')

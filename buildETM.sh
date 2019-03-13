@@ -1,1 +1,1 @@
-rm -rf ./node_modules && npm install && react-native link react-native-gesture-handler && cd ./node_modules/etm-js-rn && npm install && npm run nodeify && react-native run-ios
+rm -rf ./node_modules && npm install && react-native link react-native-gesture-handler && cd ./node_modules/etm-js-rn && npm install && npm run nodeify && cd ../../ && react-native run-ios

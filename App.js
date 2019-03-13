@@ -18,6 +18,7 @@ import TransferScreen from "./js/screen/chain/TransferScreen";
 import VoteScreen from "./js/screen/chain/VoteScreen";
 import PersonalScreen from "./js/screen/chain/PersonalScreen";
 import EponyScreen from "./js/screen/dapp/EponyScreen";
+import SecretScreen from "./js/screen/dapp/SecretScreen";
 
 
 //全局存储
@@ -60,6 +61,9 @@ const MainNavigator = createStackNavigator({
         },
         Epony: {
             screen: EponyScreen
+        },
+        Secret: {
+            screen: SecretScreen
         },
     },
     {
