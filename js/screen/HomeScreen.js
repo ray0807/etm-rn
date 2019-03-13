@@ -8,9 +8,9 @@ import {BASE_URL, GET_ADDRESS_URL, USER_KEY, BACKGROUND_COLOR} from '../config/C
 
 let socket = require('socket.io-client')(BASE_URL);
 
-import {afterRegisterAction} from '../../App'
 
 import MainGrid from '../view/Gridview'
+import DappMainGrid from '../view/DappGridview'
 
 console.ignoredYellowBox = ['Remote debugger'];
 YellowBox.ignoreWarnings([
@@ -89,11 +89,15 @@ export default class HomeScreen extends BaseScreen {
                     </Text>
                     <View style={{marginLeft: 10, marginRight: 10, backgroundColor: '#fff'}}>
                         <MainGrid navi={navi}/>
+
                     </View>
                     <Text style={styles.introStyle}>
                         Dapps
                     </Text>
-                    <View style={{height: 100, backgroundColor: '#ffffff'}}/>
+                    <View style={{marginLeft: 10, marginRight: 10, backgroundColor: '#fff'}}>
+                        <DappMainGrid navi={navi}/>
+
+                    </View>
 
                     <Text style={styles.introStyle}>
                         交易记录
