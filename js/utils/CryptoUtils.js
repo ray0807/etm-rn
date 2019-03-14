@@ -3,9 +3,30 @@ let nacl_util = require('tweetnacl-util')
 let nacl_sealedbox = require('tweetnacl-sealedbox-js');
 let ed2curve = require('ed2curve')
 let sha256 = require("fast-sha256");
-import { randomBytes } from 'react-native-randombytes'
 
-nacl.setPRNG(randomBytes)
+// nacl.setPRNG(randomBytes)
+
+
+// require('crypto')   不存在
+// function randombytes(x, n) {
+//     var values, prng;
+//     if (typeof window !== 'undefined' && window.crypto) {
+//         values = new Uint8Array(n);
+//         window.crypto.getRandomValues(values);
+//     } else if (typeof window !== 'undefined' && window.msCrypto) {
+//         values = new Uint8Array(n);
+//         window.msCrypto.getRandomValues(values);
+//     } else if (typeof require !== 'undefined') {
+//         prng = require('crypto');
+//         values = prng ? prng.randomBytes(n) : null;
+//     } else {
+//         throw new Error('no PRNG');
+//     }
+//     if (!values || values.length !== n) {
+//         throw new Error('PRNG failed');
+//     }
+//     for (var i = 0; i < values.length; i++) x[i] = values[i];
+// }
 
 function sha256Bytes(data) {
     return Buffer.from(sha256.hash(data))
