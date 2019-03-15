@@ -3,8 +3,9 @@ import {YellowBox, StyleSheet, View, Text, ScrollView} from 'react-native';
 
 
 import BaseScreen from './BaseScreen'
-import {BASE_URL, GET_ADDRESS_URL, USER_KEY, BACKGROUND_COLOR} from '../config/Config'
+import {BASE_URL, GET_ADDRESS_URL, USER_KEY, BACKGROUND_COLOR,NORMAL_SIZE} from '../config/Config'
 
+import {SimpleListView} from '../view/SimpleListView'
 
 let socket = require('socket.io-client')(BASE_URL);
 
@@ -102,7 +103,7 @@ export default class HomeScreen extends BaseScreen {
                     <Text style={styles.introStyle}>
                         交易记录
                     </Text>
-                    <View style={{height: 100, backgroundColor: '#ffffff'}}/>
+                    <SimpleListView/>
                 </ScrollView>
 
 

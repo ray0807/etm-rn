@@ -4,6 +4,8 @@ import GridView from 'react-native-gridview';
 
 const itemsPerRow = 3;
 
+import {NORMAL_SIZE} from '../config/Config'
+
 // Use data from an array...
 // const data = Array(20)
 //     .fill(null)
@@ -52,7 +54,7 @@ export default function MainGrid(props) {
                     }}>
                         <View style={{flex: 1, padding: 10, justifyContent: 'center', alignItems: 'center',}}>
                             <Image style={{width: 40, height: 40}} source={iconUrl[itemIndex]}/>
-                            <Text style={{marginTop: 10}}>{data[itemIndex]}</Text>
+                            <Text style={{marginTop: 10, fontSize: NORMAL_SIZE}}>{data[itemIndex]}</Text>
                         </View>
                     </TouchableOpacity>
                 );

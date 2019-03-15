@@ -14,6 +14,11 @@ export const USER_KEY = 'LOGINSTATE'
 export const BACKGROUND_COLOR = '#F9F9F9'
 export const LINE_COLOR = '#ddd'
 export const SEND_COLOR = '#2593fb'
+export const INCOME_COLOR = '#32CD32'
+export const OUT_COLOR = '#DC143C'
+
+// textSize
+export const NORMAL_SIZE = 16
 
 //WEBVIEW
 export const RN_MESSAGES_CHANNEL_PREFIX = 'f251c210-e7c9-42fa-bae3-b9352ec3722a';
