@@ -4,6 +4,7 @@ export const SAVE_LOGIN_URL = BASE_URL + '/api/accounts/open2/'
 export const GET_ADDRESS_URL = BASE_URL + '/api/accounts/getBalance?address='
 export const TRANSFER_URL = BASE_URL + '/peer/transactions'
 export const SECOND_PASSWD_URL = BASE_URL + '/api/signatures'
+export const GET_TRANSCATIONS_URL = BASE_URL + '/api/transactions'
 
 
 //string

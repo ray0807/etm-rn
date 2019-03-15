@@ -3,6 +3,8 @@ import {View, ListView, Image, Text, TouchableOpacity, StyleSheet, Alert} from '
 
 import {LINE_COLOR, INCOME_COLOR, OUT_COLOR, NORMAL_SIZE} from '../config/Config'
 
+import {getBalanceTranscations} from '../utils/http'
+
 export const data = [
     {
         title: '啤酒',
@@ -62,24 +64,51 @@ export const data = [
 
 const BALANCE_COLOR = [INCOME_COLOR, OUT_COLOR]
 
+const ds = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2
+});
+
 export class SimpleListView extends Component {
 
     constructor(props) {
         super(props);
-        let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
+
         this.state = {
-            dataSource: ds.cloneWithRows(data),
-            balanceColor:INCOME_COLOR,
+            dataArray: [],
+            balanceColor: INCOME_COLOR,
         }
+        this.getTranscation = this.getTranscation.bind(this)
+    }
+
+    componentDidMount() {
+        getBalanceTranscations(global.user.address, this.getTranscation)
+    }
+
+    getTranscation(data) {
+        if (data && data.success) {
+            data.transactions.forEach((item) => {
+                this.state.dataArray.push({
+                    "senderId": item.senderId,
+                    "recipientId": item.recipientId,
+                    "height": item.height,
+                    "message": item.message,
+                    "id": item.id,
+                    "amount": (item.balance / 1e8).toFixed(2),
+                })
+            })
+        }
+        this.state.dataArray.sort((itemA, itemB) => {
+            return itemA.height - itemB.height
+        })
+        console.warn(this.state.dataArray)
+
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <ListView
-                    dataSource={this.state.dataSource}
+                    dataSource={ds.cloneWithRows(this.state.dataArray)}
                     renderRow={this._renderRow}
                 />
             </View>
@@ -89,16 +118,19 @@ export class SimpleListView extends Component {
     _renderRow = (item, sectionID, rowID, itemIndex, itemID) => {
         return (
             <TouchableOpacity style={styles.cellContainer} onPress={() => {
-
             }}>
                 <View style={{alignItems: 'center', flex: 1}}>
-                    <Text style={{color: (BALANCE_COLOR[itemIndex % 2]), fontSize: 25}}>+550000 ETM</Text>
+                    <Text style={{
+                        color: (BALANCE_COLOR[itemIndex % 2]),
+                        fontSize: 25
+                    }}>{"+" + item.amount + " ETM"}</Text>
 
                 </View>
                 <View>
-                    <Text style={styles.title}>{"发送地址:" + item.title}</Text>
-                    <Text style={styles.title}>{"收款地址:" + item.title}</Text>
-                    <Text style={styles.title}>{"信息:" + item.title}</Text>
+                    <Text style={styles.title}>{"交易ID:\n" + item.id}</Text>
+                    <Text style={styles.title}>{"发送地址:\n" + item.senderId}</Text>
+                    <Text style={styles.title}>{"收款地址:\n" + item.recipientId}</Text>
+                    <Text style={styles.title}>{"信息:" + item.msg}</Text>
                 </View>
             </TouchableOpacity>
         )

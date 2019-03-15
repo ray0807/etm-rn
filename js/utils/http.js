@@ -1,5 +1,5 @@
 import {transaction, crypto} from 'etm-js-rn'
-import {TRANSFER_URL, SAVE_LOGIN_URL, USER_KEY, SECOND_PASSWD_URL} from '../config/Config'
+import {TRANSFER_URL, SAVE_LOGIN_URL, USER_KEY, SECOND_PASSWD_URL, GET_TRANSCATIONS_URL} from '../config/Config'
 
 import {storage} from './Storage'
 
@@ -96,6 +96,38 @@ export function setSecondPassword(secret, secondSecret, callback) {
                 "secondSecret": secondSecret
             })
         }
+    }).catch((error) => {
+        console.error(error);
+        callback(false)
+    });
+}
+
+//获取该用户前十条转账记录
+export function getBalanceTranscations(address, callback) {
+    let incomeUrl = GET_TRANSCATIONS_URL + "?type=0&limit=10&recipientId=" + address
+    let outcomeUrl = GET_TRANSCATIONS_URL + "?type=0&limit=10&senderId=" + address
+
+    fetch(incomeUrl, {
+        method: 'GET'
+    }).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+    }).then((json) => {
+        callback(json)
+    }).catch((error) => {
+        console.error(error);
+        callback(false)
+    });
+
+    fetch(outcomeUrl, {
+        method: 'GET'
+    }).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+    }).then((json) => {
+        callback(json)
     }).catch((error) => {
         console.error(error);
         callback(false)
