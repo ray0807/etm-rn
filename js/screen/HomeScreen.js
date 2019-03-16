@@ -100,9 +100,6 @@ export default class HomeScreen extends BaseScreen {
 
                     </View>
 
-                    <Text style={styles.introStyle}>
-                        交易记录
-                    </Text>
                     <SimpleListView/>
                 </ScrollView>
 

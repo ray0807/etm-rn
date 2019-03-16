@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, ListView, Image, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 
-import {LINE_COLOR, INCOME_COLOR, OUT_COLOR, NORMAL_SIZE} from '../config/Config'
+import {LINE_COLOR, INCOME_COLOR, OUT_COLOR, BACKGROUND_COLOR} from '../config/Config'
 
 import {getBalanceTranscations} from '../utils/http'
 
@@ -78,6 +78,7 @@ export class SimpleListView extends Component {
             balanceColor: INCOME_COLOR,
         }
         this.getTranscation = this.getTranscation.bind(this)
+        this._renderHeader = this._renderHeader.bind(this)
     }
 
     componentDidMount() {
@@ -87,14 +88,16 @@ export class SimpleListView extends Component {
     getTranscation(data) {
         if (data && data.success) {
             data.transactions.forEach((item) => {
-                this.state.dataArray.push({
-                    "senderId": item.senderId,
-                    "recipientId": item.recipientId,
-                    "height": item.height,
-                    "message": item.message,
-                    "id": item.id,
-                    "amount": (item.balance / 1e8).toFixed(2),
-                })
+                if (item.balance && item.balance > 0) {
+                    this.state.dataArray.push({
+                        "senderId": item.senderId,
+                        "recipientId": item.recipientId,
+                        "height": item.height,
+                        "message": item.message ? item.message : '没有附加信息',
+                        "id": item.id,
+                        "amount": (item.balance / 1e8).toFixed(2),
+                    })
+                }
             })
         }
         this.state.dataArray.sort((itemA, itemB) => {
@@ -104,12 +107,37 @@ export class SimpleListView extends Component {
 
     }
 
+    _renderHeader() {
+        return (
+            <View>
+                <Text style={styles.introStyle}>
+                    交易记录
+                </Text>
+                {
+                    this.state.dataArray.length == 0 &&
+                    <View style={{
+                        height: 200, backgroundColor: '#fff', justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <Text style={{fontSize: 30, color: '#999'}}>
+                            暂无任何交易信息
+                        </Text>
+
+                    </View>
+
+                }
+            </View>
+        )
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <ListView
                     dataSource={ds.cloneWithRows(this.state.dataArray)}
                     renderRow={this._renderRow}
+                    enableEmptySections={true}
+                    renderHeader={this._renderHeader}
                 />
             </View>
         )
@@ -119,18 +147,36 @@ export class SimpleListView extends Component {
         return (
             <TouchableOpacity style={styles.cellContainer} onPress={() => {
             }}>
-                <View style={{alignItems: 'center', flex: 1}}>
+                <View style={{
+                    alignItems: 'center',
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginTop: 20,
+                    marginBottom: 20
+                }}>
+                    <Text style={{fontSize: 30, color: (BALANCE_COLOR[itemIndex % 2])}}>+</Text>
                     <Text style={{
                         color: (BALANCE_COLOR[itemIndex % 2]),
                         fontSize: 25
-                    }}>{"+" + item.amount + " ETM"}</Text>
-
+                    }}>{item.amount}</Text>
+                    <Text style={{fontSize: 25, color: (BALANCE_COLOR[itemIndex % 2])}}> ETM</Text>
                 </View>
-                <View>
-                    <Text style={styles.title}>{"交易ID:\n" + item.id}</Text>
-                    <Text style={styles.title}>{"发送地址:\n" + item.senderId}</Text>
-                    <Text style={styles.title}>{"收款地址:\n" + item.recipientId}</Text>
-                    <Text style={styles.title}>{"信息:" + item.msg}</Text>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text style={styles.titleLabel}>交易凭证:</Text>
+                    <Text style={styles.title}>{item.id}</Text>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text style={styles.titleLabel}>发送地址:</Text>
+                    <Text style={styles.title}>{item.senderId}</Text>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text style={styles.titleLabel}>收款地址:</Text>
+                    <Text style={styles.title}>{item.recipientId}</Text>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text style={styles.titleLabel}>附加信息:</Text>
+                    <Text style={styles.title}>{item.msg}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -147,9 +193,7 @@ const styles = StyleSheet.create({
     cellContainer: {
         borderBottomWidth: 0.5,
         borderColor: LINE_COLOR,
-        padding: 10,
-
-
+        padding: 5,
         marginLeft: 10,
         marginRight: 10
     },
@@ -158,9 +202,23 @@ const styles = StyleSheet.create({
         height: 50,
     },
     title: {
-        marginTop: 10,
-        fontSize: NORMAL_SIZE,
+        flex: 1,
+        height: 50,
+        marginLeft: 10,
+        fontSize: 12,
+        color: '#222'
+    },
+    titleLabel: {
+        height: 30,
+        fontSize: 14,
         color: '#666'
+    },
+    introStyle: {
+        fontSize: 18,
+        backgroundColor: BACKGROUND_COLOR,
+        color: '#666666',
+        paddingTop: 10,
+        paddingBottom: 10
     },
 
 });
