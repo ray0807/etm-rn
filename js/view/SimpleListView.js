@@ -1,66 +1,13 @@
 import React, {Component} from 'react';
-import {View, ListView, Image, Text, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import {View, ListView, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import {LINE_COLOR, INCOME_COLOR, OUT_COLOR, BACKGROUND_COLOR} from '../config/Config'
 
 import {getBalanceTranscations} from '../utils/http'
 
-export const data = [
-    {
-        title: '啤酒',
-    },
-    {
-        title: '面包',
-    },
-    {
-        title: '蛋糕',
-    },
-    {
-        title: '糖果',
-    },
-    {
-        title: '辣椒',
-    },
-    {
-        title: '薯条',
-    },
-    {
-        title: '饮料',
-    },
-    {
-        title: '鸡蛋',
-    },
-    {
-        title: '火腿',
-    },
-    {
-        title: '热狗',
-    },
-    {
-        title: '冰激凌',
-    },
-    {
-        title: '冰棍',
-    },
-    {
-        title: '柠檬',
-    },
-    {
-        title: '蘑菇',
-    },
-    {
-        title: '橘子',
-    },
-    {
-        title: '披萨',
-    },
-    {
-        title: '萝卜',
-    },
-    {
-        title: '西瓜',
-    },
-];
+import {utils} from 'etm-js-rn'
+
+let moment = require('moment')
 
 const BALANCE_COLOR = [INCOME_COLOR, OUT_COLOR];
 
@@ -79,11 +26,16 @@ export class SimpleListView extends Component {
         };
         this.getTranscation = this.getTranscation.bind(this);
         this._renderHeader = this._renderHeader.bind(this)
+        this.formatTime = this.formatTime.bind(this)
     }
 
     componentDidMount() {
         this.props.onRef(this)
 
+    }
+
+    formatTime(timestamp) {
+        return moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
     }
 
     homeClick = () => {
@@ -103,7 +55,8 @@ export class SimpleListView extends Component {
                         "message": item.message ? item.message : '没有附加信息',
                         "id": item.id,
                         "amount": (item.amount / 1e8).toFixed(2),
-                        "label": item.senderId == global.user.address ? "-" : "+"
+                        "label": item.senderId == global.user.address ? "-" : "+",
+                        "ts": item.timestamp
                     })
                 }
             })
@@ -170,6 +123,10 @@ export class SimpleListView extends Component {
                     <Text style={{fontSize: 25, color: (BALANCE_COLOR[itemIndex % 2])}}> ETM</Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
+                    <Text style={styles.titleLabel}>交易时间:</Text>
+                    <Text style={styles.title}>{this.formatTime(utils.slots.getRealTime(item.ts))}</Text>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.titleLabel}>交易凭证:</Text>
                     <Text style={styles.title}>{item.id}</Text>
                 </View>
@@ -210,13 +167,13 @@ const styles = StyleSheet.create({
     },
     title: {
         flex: 1,
-        height: 50,
+        height: 36,
         marginLeft: 10,
         fontSize: 12,
         color: '#222'
     },
     titleLabel: {
-        height: 30,
+        height: 36,
         fontSize: 14,
         color: '#666'
     },
