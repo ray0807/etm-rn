@@ -12,8 +12,8 @@ import {BACKGROUND_COLOR, SEND_COLOR} from '../config/Config'
 import {login} from '../utils/http'
 
 
-//enable limit unknown meadow able whip code ranch sustain balcony climb only
-
+//oak group outdoor glue time present mail walnut double relief upset laundry
+//A2uWo5F3YTyTbxqbpXKqyXmNJNA4oRrTb8
 export default class LoginScreen extends BaseScreen {
     constructor() {
         super()

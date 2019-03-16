@@ -102,11 +102,13 @@ export function setSecondPassword(secret, secondSecret, callback) {
     });
 }
 
-//获取该用户前十条转账记录
-export function getBalanceTranscations(address, callback) {
-    let incomeUrl = GET_TRANSCATIONS_URL + "?type=0&limit=10&recipientId=" + address
-    let outcomeUrl = GET_TRANSCATIONS_URL + "?type=0&limit=10&senderId=" + address
 
+//获取该用户前十条转账记录
+//http://etm.red:8097/api/transactions?recipientId=A2uWo5F3YTyTbxqbpXKqyXmNJNA4oRrTb8&limit=10&orderBy=t_timestamp:desc
+//http://etm.red:8097/api/transactions?senderId=A2uWo5F3YTyTbxqbpXKqyXmNJNA4oRrTb8&orderBy=t_timestamp:desc&limit=10
+export function getBalanceTranscations(address, callback) {
+    let incomeUrl = "http://etm.red:8097/api/transactions?recipientId=" + address + "&limit=10&orderBy=t_timestamp:desc"
+    let outcomeUrl = "http://etm.red:8097/api/transactions?senderId=" + address + "&orderBy=t_timestamp:desc&limit=10"
     fetch(incomeUrl, {
         method: 'GET'
     }).then((response) => {

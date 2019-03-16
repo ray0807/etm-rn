@@ -3,7 +3,7 @@ import {YellowBox, StyleSheet, View, Text, ScrollView} from 'react-native';
 
 
 import BaseScreen from './BaseScreen'
-import {BASE_URL, GET_ADDRESS_URL, USER_KEY, BACKGROUND_COLOR,NORMAL_SIZE} from '../config/Config'
+import {BASE_URL, GET_ADDRESS_URL, USER_KEY, BACKGROUND_COLOR, NORMAL_SIZE} from '../config/Config'
 
 import {SimpleListView} from '../view/SimpleListView'
 
@@ -60,11 +60,17 @@ export default class HomeScreen extends BaseScreen {
                 if (json && json.success) {
                     this.setState({balance: (json.balance / 1e8).toFixed(2)});
                 }
+
+                this.child.homeClick()
             }).catch((error) => {
                 console.error(error);
             });
         }
 
+    }
+
+    onRef = (ref) => {
+        this.child = ref
     }
 
 
@@ -100,7 +106,7 @@ export default class HomeScreen extends BaseScreen {
 
                     </View>
 
-                    <SimpleListView/>
+                    <SimpleListView onRef={this.onRef}/>
                 </ScrollView>
 
 

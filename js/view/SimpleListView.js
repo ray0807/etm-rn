@@ -62,7 +62,7 @@ export const data = [
     },
 ];
 
-const BALANCE_COLOR = [INCOME_COLOR, OUT_COLOR]
+const BALANCE_COLOR = [INCOME_COLOR, OUT_COLOR];
 
 const ds = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2
@@ -76,34 +76,41 @@ export class SimpleListView extends Component {
         this.state = {
             dataArray: [],
             balanceColor: INCOME_COLOR,
-        }
-        this.getTranscation = this.getTranscation.bind(this)
+        };
+        this.getTranscation = this.getTranscation.bind(this);
         this._renderHeader = this._renderHeader.bind(this)
     }
 
     componentDidMount() {
-        getBalanceTranscations(global.user.address, this.getTranscation)
+        this.props.onRef(this)
+
     }
+
+    homeClick = () => {
+        this.state.dataArray = []
+        getBalanceTranscations(global.user.address, this.getTranscation)
+
+    };
 
     getTranscation(data) {
         if (data && data.success) {
             data.transactions.forEach((item) => {
-                if (item.balance && item.balance > 0) {
+                if (item.amount && item.amount > 0) {
                     this.state.dataArray.push({
                         "senderId": item.senderId,
                         "recipientId": item.recipientId,
                         "height": item.height,
                         "message": item.message ? item.message : '没有附加信息',
                         "id": item.id,
-                        "amount": (item.balance / 1e8).toFixed(2),
+                        "amount": (item.amount / 1e8).toFixed(2),
+                        "label": item.senderId == global.user.address ? "-" : "+"
                     })
                 }
             })
         }
         this.state.dataArray.sort((itemA, itemB) => {
             return itemA.height - itemB.height
-        })
-        console.warn(this.state.dataArray)
+        });
 
     }
 
@@ -155,7 +162,7 @@ export class SimpleListView extends Component {
                     marginTop: 20,
                     marginBottom: 20
                 }}>
-                    <Text style={{fontSize: 30, color: (BALANCE_COLOR[itemIndex % 2])}}>+</Text>
+                    <Text style={{fontSize: 30, color: (BALANCE_COLOR[itemIndex % 2])}}>{item.label}</Text>
                     <Text style={{
                         color: (BALANCE_COLOR[itemIndex % 2]),
                         fontSize: 25
@@ -176,7 +183,7 @@ export class SimpleListView extends Component {
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.titleLabel}>附加信息:</Text>
-                    <Text style={styles.title}>{item.msg}</Text>
+                    <Text style={styles.title}>{item.message}</Text>
                 </View>
             </TouchableOpacity>
         )
