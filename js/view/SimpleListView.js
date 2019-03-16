@@ -109,7 +109,7 @@ export class SimpleListView extends Component {
             })
         }
         this.state.dataArray.sort((itemA, itemB) => {
-            return itemA.height - itemB.height
+            return itemB.height - itemA.height
         });
 
     }
