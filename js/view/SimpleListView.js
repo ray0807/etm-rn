@@ -124,7 +124,7 @@ export class SimpleListView extends Component {
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.titleLabel}>交易时间:</Text>
-                    <Text style={styles.title}>{this.formatTime(utils.slots.getRealTime(item.ts))}</Text>
+                    <Text style={styles.title1}>{this.formatTime(utils.slots.getRealTime(item.ts))}</Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.titleLabel}>交易凭证:</Text>
@@ -140,7 +140,7 @@ export class SimpleListView extends Component {
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text style={styles.titleLabel}>附加信息:</Text>
-                    <Text style={styles.title}>{item.message}</Text>
+                    <Text style={styles.title1}>{item.message}</Text>
                 </View>
             </TouchableOpacity>
         )
@@ -170,6 +170,13 @@ const styles = StyleSheet.create({
         height: 36,
         marginLeft: 10,
         fontSize: 12,
+        color: '#222'
+    },
+    title1: {
+        flex: 1,
+        height: 36,
+        marginLeft: 10,
+        fontSize: 14,
         color: '#222'
     },
     titleLabel: {
