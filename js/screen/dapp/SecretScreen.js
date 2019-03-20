@@ -3,9 +3,13 @@ import {StyleSheet, View, Text} from 'react-native';
 import Button from 'react-native-button';
 
 import BaseScreen from '../BaseScreen'
-import {SEND_COLOR} from '../../config/Config'
+import {SEND_COLOR, icons} from '../../config/Config'
 
-import {encodeString, decodeString} from '../../utils/CryptoUtils'
+import {getSecretUserInfo, registerSecretDapp} from '../../utils/http'
+
+import {getRandom} from '../../utils/util'
+import {randomName} from '../../utils/RandomName'
+
 
 export default class SecretScreen extends BaseScreen {
 
@@ -14,8 +18,23 @@ export default class SecretScreen extends BaseScreen {
 
     }
 
+    componentDidMount() {
+        getSecretUserInfo(global.user.address, (data) => {
+            if (data.user) {
+                //设置内容
+                console.warn(data.user)
+            } else {
+                //用户不存在 提示用户是否注册
+                registerSecretDapp(icons[getRandom(icons.length)], randomName(), global.user.secret, (d) => {
+                    console.warn(d)
+                })
+            }
+        })
+    }
+
+
     static navigationOptions = {
-        title: 'SecretScreen',
+        title: '秘密',
     };
 
     render() {
@@ -39,10 +58,7 @@ export default class SecretScreen extends BaseScreen {
                         alignItems: 'center',
                     }}
                     onPress={() => {
-                        let enMessage = encodeString('hello ray','269b62b831022f902ab5a5405b89e244d70a2d0fa86dd02d5fd1923804ffc930')
-                        console.warn('encodeMessage:',enMessage)
-                        // let deMessage = decodeString(enMessage,'imitate stem inflict wrong galaxy wonder meat body regular menu custom crater')
-                        // console.warn('decodeMessage:',deMessage)
+
                     }}
                 >
                     登录

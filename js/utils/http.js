@@ -1,5 +1,13 @@
-import {transaction, crypto} from 'etm-js-rn'
-import {TRANSFER_URL, SAVE_LOGIN_URL, USER_KEY, SECOND_PASSWD_URL, GET_TRANSCATIONS_URL} from '../config/Config'
+import {transaction, crypto, dapp} from 'etm-js-rn'
+import {
+    TRANSFER_URL,
+    SAVE_LOGIN_URL,
+    USER_KEY,
+    SECOND_PASSWD_URL,
+    GET_TRANSCATIONS_URL,
+    DAPP_URL,
+    GET_SECRET_DAPP_USER_INFO_URL
+} from '../config/Config'
 
 import {storage} from './Storage'
 
@@ -134,4 +142,53 @@ export function getBalanceTranscations(address, callback) {
         console.error(error);
         callback(false)
     });
+}
+
+
+//秘密app注册
+export function registerSecretDapp(image, nickname, secret, callback) {
+    let trs = dapp.createInnerTransaction({
+        fee: `0`,
+        type: 1000,
+        args: JSON.stringify([crypto.getKeys(secret).publicKey, image, nickname])
+    }, secret)
+
+    console.warn(trs)
+    fetch(DAPP_URL, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'magic': 'personal',
+            'version': ''
+        },
+        body: JSON.stringify({"transaction": trs}),
+    }).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+    }).then((json) => {
+        callback(json)
+        // if (json && json.success) {
+        // }
+    }).catch((error) => {
+        console.error(error);
+        callback(null)
+    });
+}
+
+
+export function getSecretUserInfo(address, callback) {
+    fetch(GET_SECRET_DAPP_USER_INFO_URL + address, {
+        method: 'GET'
+    }).then((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+    }).then((json) => {
+        callback(json)
+    }).catch((error) => {
+        console.error(error);
+        callback(false)
+    });
+
 }
