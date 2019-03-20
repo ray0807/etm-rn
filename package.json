@@ -12,7 +12,7 @@
     "buffer": "^4.7.0",
     "bytebuffer": "^5.0.1",
     "ed2curve": "^0.2.1",
-    "etm-js-rn": "https://github.com/entanmo/etm-js-rn.git",
+    "etm-js-rn": "git+https://github.com/entanmo/etm-js-rn.git",
     "events": "^1.0.0",
     "fast-sha256": "^1.0.0",
     "moment": "^2.24.0",
