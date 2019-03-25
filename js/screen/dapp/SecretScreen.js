@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, View, Text, Image, Dimensions, TouchableOpacity} from 'react-native';
 
 import BaseScreen from '../BaseScreen'
-import {SEND_COLOR, icons, BACKGROUND_COLOR, LINE_COLOR} from '../../config/Config'
+import {OUT_COLOR, icons, BACKGROUND_COLOR, LINE_COLOR} from '../../config/Config'
 
 import {getSecretUserInfo, registerSecretDapp} from '../../utils/http'
 
@@ -18,15 +18,27 @@ export default class SecretScreen extends BaseScreen {
     constructor() {
         super()
 
+        this.state = {
+            selectIndex: 0,
+            nickname: '',
+            imageUrl: ''
+        }
     }
 
     componentDidMount() {
+        this.setInfo()
+    }
+
+    setInfo() {
         if (global.user) {
             getSecretUserInfo(global.user.address, (data) => {
                 if (!data) return
                 if (data.user) {
                     //设置内容
-                    console.warn(data.user)
+                    this.setState({
+                        nickname: data.user.nickname,
+                        imageUrl: data.user.image
+                    })
                 } else {
                     //用户不存在 提示用户是否注册
                     registerSecretDapp(icons[getRandom(icons.length)], randomName(), global.user.secret, (d) => {
@@ -73,20 +85,35 @@ export default class SecretScreen extends BaseScreen {
                                marginTop: 10
                            }}
                            imageStyle={{borderRadius: 25}}
-                           source={{uri: 'http://imgv2.oss-cn-shanghai.aliyuncs.com/images/rn/image/beer.png'}}>
+                           source={{uri: this.state.imageUrl}}>
 
                     </Image>
                     <Text style={styles.nickName}>
-                        中国吧啦巴拉巴拉
+                        {this.state.nickname}
                     </Text>
                     <View style={{marginTop: 20, height: 0.5, width: WINDOW_WIDTH - 20, backgroundColor: LINE_COLOR}}/>
                     <View style={{flexDirection: 'row'}}>
+
                         <View style={styles.blockStyle}>
-                            <Text style={styles.tabStyle}>接收的信息</Text>
+                            <TouchableOpacity onPress={() => {
+                                this.setState({selectIndex: 0})
+
+                            }}>
+                                <Text style={this.state.selectIndex == 0 ? styles.tabSelectedStyle : styles.tabStyle}>接收的信息</Text>
+                            </TouchableOpacity>
+
                         </View>
+                        <View style={{marginTop: 10, width: 1, backgroundColor: LINE_COLOR}}></View>
+
                         <View style={styles.blockStyle}>
-                            <Text style={styles.tabStyle}>发送的信息</Text>
+                            <TouchableOpacity onPress={() => {
+                                this.setState({selectIndex: 1})
+
+                            }}>
+                                <Text style={this.state.selectIndex == 1 ? styles.tabSelectedStyle : styles.tabStyle}>发送的信息</Text>
+                            </TouchableOpacity>
                         </View>
+
                     </View>
 
 
@@ -115,10 +142,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    tabSelectedStyle: {
+        marginTop: 10,
+        fontSize: 18,
+        padding: 10,
+        color: OUT_COLOR,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     blockStyle: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
     }
 });
